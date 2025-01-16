@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پیانو دستگاه شور</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        .piano {
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+        }
+        .key {
+            width: 60px;
+            height: 200px;
+            margin: 5px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        .key:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>پیانو دستگاه شور</h1>
+    <div class="piano">
+        <div class="key" data-note="G4">سل</div>
+        <div class="key" data-note="A4">لا</div>
+        <div class="key" data-note="Bb4">سی‌بمل</div>
+        <div class="key" data-note="C5">دو</div>
+        <div class="key" data-note="D5">ر</div>
+        <div class="key" data-note="Eb5">می‌بمل</div>
+        <div class="key" data-note="F5">فا</div>
+        <div class="key" data-note="G5">سل</div>
+    </div>
+
+    <script>
+        // تعریف نت‌های دستگاه شور
+        const notes = {
+            "G4": "https://www.szynalski.com/tone-generator/sounds/piano/g4.mp3",
+            "A4": "https://www.szynalski.com/tone-generator/sounds/piano/a4.mp3",
+            "Bb4": "https://www.szynalski.com/tone-generator/sounds/piano/bb4.mp3",
+            "C5": "https://www.szynalski.com/tone-generator/sounds/piano/c5.mp3",
+            "D5": "https://www.szynalski.com/tone-generator/sounds/piano/d5.mp3",
+            "Eb5": "https://www.szynalski.com/tone-generator/sounds/piano/eb5.mp3",
+            "F5": "https://www.szynalski.com/tone-generator/sounds/piano/f5.mp3",
+            "G5": "https://www.szynalski.com/tone-generator/sounds/piano/g5.mp3"
+        };
+
+        // اضافه کردن رویداد کلیک به هر کلید
+        document.querySelectorAll('.key').forEach(key => {
+            key.addEventListener('click', () => {
+                const note = key.getAttribute('data-note');
+                const audio = new Audio(notes[note]);
+                audio.play();
+            });
+        });
+    </script>
+
+</body>
+</html>
