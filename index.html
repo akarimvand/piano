@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>پیانو دستگاه‌های موسیقی ایرانی</title>
+    <title>پیانو و سنتور دستگاه‌های موسیقی ایرانی</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -42,11 +42,27 @@
             margin-right: 15px;
             font-size: 16px;
         }
+        .instrument-selector {
+            margin-bottom: 20px;
+        }
+        .instrument-selector select {
+            padding: 5px;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
 
-    <h1>پیانو دستگاه‌های موسیقی ایرانی</h1>
+    <h1>پیانو و سنتور دستگاه‌های موسیقی ایرانی</h1>
+
+    <!-- انتخاب ساز -->
+    <div class="instrument-selector">
+        <label for="instrument">ساز مورد نظر را انتخاب کنید:</label>
+        <select id="instrument">
+            <option value="piano">پیانو</option>
+            <option value="santur">سنتور</option>
+        </select>
+    </div>
 
     <!-- انتخاب دستگاه -->
     <div class="device-selector">
@@ -87,15 +103,18 @@
             chahargah: ["C4", "D4", "Eb4", "F4", "G4", "Ab4", "Bb4", "C5"] // چهارگاه
         };
 
-        // ایجاد یک سینت سایزر با Tone.js
-        const synth = new Tone.Synth().toDestination();
+        // ایجاد سینت سایزر با Tone.js
+        let synth;
 
-        // فعال‌سازی Tone.js برای رفع تاخیر
-        document.addEventListener('click', () => {
-            if (Tone.context.state !== 'running') {
-                Tone.context.resume();
+        // تابع برای تغییر ساز
+        function changeInstrument() {
+            const selectedInstrument = document.getElementById('instrument').value;
+            if (selectedInstrument === 'piano') {
+                synth = new Tone.Synth().toDestination(); // پیانو
+            } else if (selectedInstrument === 'santur') {
+                synth = new Tone.MetalSynth().toDestination(); // سنتور (با استفاده از MetalSynth برای شبیه‌سازی صدای سنتور)
             }
-        });
+        }
 
         // تابع برای تغییر دستگاه
         function changeDevice() {
@@ -106,6 +125,16 @@
                 key.textContent = notes[index]; // نمایش نام نت
             });
         }
+
+        // فعال‌سازی Tone.js برای رفع تاخیر
+        document.addEventListener('click', () => {
+            if (Tone.context.state !== 'running') {
+                Tone.context.resume();
+            }
+        });
+
+        // اضافه کردن رویداد تغییر ساز
+        document.getElementById('instrument').addEventListener('change', changeInstrument);
 
         // اضافه کردن رویداد تغییر دستگاه
         document.querySelectorAll('input[name="device"]').forEach(radio => {
@@ -120,7 +149,8 @@
             });
         });
 
-        // تنظیم دستگاه پیش‌فرض (شور)
+        // تنظیم ساز و دستگاه پیش‌فرض
+        changeInstrument();
         changeDevice();
     </script>
 
