@@ -3,23 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>پیانو و سنتور دستگاه‌های موسیقی ایرانی</title>
+    <title>پیانو حرفه‌ای با Bootstrap</title>
+    <!-- افزودن Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f0f0f0;
+            background-color: #f8f9fa;
             padding: 20px;
         }
         .piano {
             display: flex;
             justify-content: center;
             margin-top: 20px;
+            position: relative;
         }
         .key {
             width: 60px;
             height: 200px;
-            margin: 5px;
+            margin: 2px;
             background-color: white;
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -31,65 +33,79 @@
             font-size: 18px;
             font-weight: bold;
             color: #333;
+            position: relative;
+            z-index: 1;
+        }
+        .key.black {
+            width: 40px;
+            height: 120px;
+            background-color: black;
+            color: white;
+            position: absolute;
+            z-index: 2;
+            margin-left: -20px;
         }
         .key:hover {
             background-color: #ddd;
         }
-        .device-selector {
+        .key.black:hover {
+            background-color: #444;
+        }
+        .device-selector, .instrument-selector {
             margin-bottom: 20px;
-        }
-        .device-selector label {
-            margin-right: 15px;
-            font-size: 16px;
-        }
-        .instrument-selector {
-            margin-bottom: 20px;
-        }
-        .instrument-selector select {
-            padding: 5px;
-            font-size: 16px;
         }
     </style>
 </head>
 <body>
 
-    <h1>پیانو و سنتور دستگاه‌های موسیقی ایرانی</h1>
+    <div class="container">
+        <h1 class="text-center my-4">پیانو حرفه‌ای با Bootstrap</h1>
 
-    <!-- انتخاب ساز -->
-    <div class="instrument-selector">
-        <label for="instrument">ساز مورد نظر را انتخاب کنید:</label>
-        <select id="instrument">
-            <option value="piano">پیانو</option>
-            <option value="santur">سنتور</option>
-        </select>
-    </div>
+        <!-- انتخاب ساز -->
+        <div class="instrument-selector text-center">
+            <label for="instrument" class="form-label">ساز مورد نظر را انتخاب کنید:</label>
+            <select id="instrument" class="form-select w-25 mx-auto">
+                <option value="piano">پیانو</option>
+                <option value="santur">سنتور</option>
+            </select>
+        </div>
 
-    <!-- انتخاب دستگاه -->
-    <div class="device-selector">
-        <label>
-            <input type="radio" name="device" value="shur" checked> شور
-        </label>
-        <label>
-            <input type="radio" name="device" value="mahur"> ماهور
-        </label>
-        <label>
-            <input type="radio" name="device" value="segah"> سه‌گاه
-        </label>
-        <label>
-            <input type="radio" name="device" value="chahargah"> چهارگاه
-        </label>
-    </div>
+        <!-- انتخاب دستگاه -->
+        <div class="device-selector text-center">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="device" id="shur" value="shur" checked>
+                <label class="form-check-label" for="shur">شور</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="device" id="mahur" value="mahur">
+                <label class="form-check-label" for="mahur">ماهور</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="device" id="segah" value="segah">
+                <label class="form-check-label" for="segah">سه‌گاه</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="device" id="chahargah" value="chahargah">
+                <label class="form-check-label" for="chahargah">چهارگاه</label>
+            </div>
+        </div>
 
-    <!-- کلیدهای پیانو -->
-    <div class="piano">
-        <div class="key" data-note="G4">سل</div>
-        <div class="key" data-note="A4">لا</div>
-        <div class="key" data-note="Bb4">سی‌بمل</div>
-        <div class="key" data-note="C5">دو</div>
-        <div class="key" data-note="D5">ر</div>
-        <div class="key" data-note="Eb5">می‌بمل</div>
-        <div class="key" data-note="F5">فا</div>
-        <div class="key" data-note="G5">سل</div>
+        <!-- کلیدهای پیانو -->
+        <div class="piano">
+            <div class="key" data-note="G4">G</div>
+            <div class="key black" data-note="G#4">G#</div>
+            <div class="key" data-note="A4">A</div>
+            <div class="key black" data-note="A#4">A#</div>
+            <div class="key" data-note="B4">B</div>
+            <div class="key" data-note="C5">C</div>
+            <div class="key black" data-note="C#5">C#</div>
+            <div class="key" data-note="D5">D</div>
+            <div class="key black" data-note="D#5">D#</div>
+            <div class="key" data-note="E5">E</div>
+            <div class="key" data-note="F5">F</div>
+            <div class="key black" data-note="F#5">F#</div>
+            <div class="key" data-note="G5">G</div>
+        </div>
     </div>
 
     <!-- افزودن Tone.js از طریق CDN -->
@@ -112,7 +128,7 @@
             if (selectedInstrument === 'piano') {
                 synth = new Tone.Synth().toDestination(); // پیانو
             } else if (selectedInstrument === 'santur') {
-                synth = new Tone.MetalSynth().toDestination(); // سنتور (با استفاده از MetalSynth برای شبیه‌سازی صدای سنتور)
+                synth = new Tone.MetalSynth().toDestination(); // سنتور
             }
         }
 
@@ -121,8 +137,9 @@
             const selectedDevice = document.querySelector('input[name="device"]:checked').value;
             const notes = devices[selectedDevice];
             document.querySelectorAll('.key').forEach((key, index) => {
-                key.setAttribute('data-note', notes[index]);
-                key.textContent = notes[index]; // نمایش نام نت
+                const note = notes[index % notes.length]; // تکرار نت‌ها برای کلیدهای بیشتر
+                key.setAttribute('data-note', note);
+                key.textContent = note; // نمایش نام نت
             });
         }
 
@@ -154,5 +171,7 @@
         changeDevice();
     </script>
 
+    <!-- افزودن Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
