@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>پیانو دستگاه شور با Tone.js</title>
+    <title>پیانو دستگاه‌های موسیقی ایرانی</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,7 +14,7 @@
         .piano {
             display: flex;
             justify-content: center;
-            margin-top: 50px;
+            margin-top: 20px;
         }
         .key {
             width: 60px;
@@ -35,11 +35,36 @@
         .key:hover {
             background-color: #ddd;
         }
+        .device-selector {
+            margin-bottom: 20px;
+        }
+        .device-selector label {
+            margin-right: 15px;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
 
-    <h1>پیانو دستگاه شور</h1>
+    <h1>پیانو دستگاه‌های موسیقی ایرانی</h1>
+
+    <!-- انتخاب دستگاه -->
+    <div class="device-selector">
+        <label>
+            <input type="radio" name="device" value="shur" checked> شور
+        </label>
+        <label>
+            <input type="radio" name="device" value="mahur"> ماهور
+        </label>
+        <label>
+            <input type="radio" name="device" value="segah"> سه‌گاه
+        </label>
+        <label>
+            <input type="radio" name="device" value="chahargah"> چهارگاه
+        </label>
+    </div>
+
+    <!-- کلیدهای پیانو -->
     <div class="piano">
         <div class="key" data-note="G4">سل</div>
         <div class="key" data-note="A4">لا</div>
@@ -54,28 +79,49 @@
     <!-- افزودن Tone.js از طریق CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
     <script>
-        // تعریف نت‌های دستگاه شور
-        const notes = {
-            "G4": "G4",
-            "A4": "A4",
-            "Bb4": "Bb4",
-            "C5": "C5",
-            "D5": "D5",
-            "Eb5": "Eb5",
-            "F5": "F5",
-            "G5": "G5"
+        // تعریف نت‌های دستگاه‌های مختلف
+        const devices = {
+            shur: ["G4", "A4", "Bb4", "C5", "D5", "Eb5", "F5", "G5"], // شور
+            mahur: ["C4", "D4", "E4", "F4", "G4", "A4", "B4", "C5"], // ماهور
+            segah: ["E4", "F4", "G4", "A4", "Bb4", "C5", "D5", "Eb5"], // سه‌گاه
+            chahargah: ["C4", "D4", "Eb4", "F4", "G4", "Ab4", "Bb4", "C5"] // چهارگاه
         };
 
         // ایجاد یک سینت سایزر با Tone.js
         const synth = new Tone.Synth().toDestination();
 
+        // فعال‌سازی Tone.js برای رفع تاخیر
+        document.addEventListener('click', () => {
+            if (Tone.context.state !== 'running') {
+                Tone.context.resume();
+            }
+        });
+
+        // تابع برای تغییر دستگاه
+        function changeDevice() {
+            const selectedDevice = document.querySelector('input[name="device"]:checked').value;
+            const notes = devices[selectedDevice];
+            document.querySelectorAll('.key').forEach((key, index) => {
+                key.setAttribute('data-note', notes[index]);
+                key.textContent = notes[index]; // نمایش نام نت
+            });
+        }
+
+        // اضافه کردن رویداد تغییر دستگاه
+        document.querySelectorAll('input[name="device"]').forEach(radio => {
+            radio.addEventListener('change', changeDevice);
+        });
+
         // اضافه کردن رویداد کلیک به هر کلید
         document.querySelectorAll('.key').forEach(key => {
             key.addEventListener('click', () => {
                 const note = key.getAttribute('data-note');
-                synth.triggerAttackRelease(notes[note], "8n"); // پخش نت به مدت یک نت چنگ (8n)
+                synth.triggerAttackRelease(note, "8n"); // پخش نت به مدت یک نت چنگ (8n)
             });
         });
+
+        // تنظیم دستگاه پیش‌فرض (شور)
+        changeDevice();
     </script>
 
 </body>
