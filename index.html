@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>پیانو دستگاه شور</title>
+    <title>پیانو دستگاه شور با Tone.js</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -51,25 +51,29 @@
         <div class="key" data-note="G5">سل</div>
     </div>
 
+    <!-- افزودن Tone.js از طریق CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
     <script>
         // تعریف نت‌های دستگاه شور
         const notes = {
-            "G4": "https://www.szynalski.com/tone-generator/sounds/piano/g4.mp3",
-            "A4": "https://www.szynalski.com/tone-generator/sounds/piano/a4.mp3",
-            "Bb4": "https://www.szynalski.com/tone-generator/sounds/piano/bb4.mp3",
-            "C5": "https://www.szynalski.com/tone-generator/sounds/piano/c5.mp3",
-            "D5": "https://www.szynalski.com/tone-generator/sounds/piano/d5.mp3",
-            "Eb5": "https://www.szynalski.com/tone-generator/sounds/piano/eb5.mp3",
-            "F5": "https://www.szynalski.com/tone-generator/sounds/piano/f5.mp3",
-            "G5": "https://www.szynalski.com/tone-generator/sounds/piano/g5.mp3"
+            "G4": "G4",
+            "A4": "A4",
+            "Bb4": "Bb4",
+            "C5": "C5",
+            "D5": "D5",
+            "Eb5": "Eb5",
+            "F5": "F5",
+            "G5": "G5"
         };
+
+        // ایجاد یک سینت سایزر با Tone.js
+        const synth = new Tone.Synth().toDestination();
 
         // اضافه کردن رویداد کلیک به هر کلید
         document.querySelectorAll('.key').forEach(key => {
             key.addEventListener('click', () => {
                 const note = key.getAttribute('data-note');
-                const audio = new Audio(notes[note]);
-                audio.play();
+                synth.triggerAttackRelease(notes[note], "8n"); // پخش نت به مدت یک نت چنگ (8n)
             });
         });
     </script>
